@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Person List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even){
+            background-color: #f2f2f2;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .search-form {
+            margin-bottom: 20px;
+        }
+        .search-form input[type="text"] {
+            padding: 8px;
+            width: 250px;
+            font-size: 16px;
+        }
+        .search-form button {
+            padding: 8px 12px;
+            font-size: 16px;
+        }
+        .top-links {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Person List</h1>
+
+    <form method="GET" action="{% url 'home' %}" class="search-form">
+        <input 
+            type="text" 
+            name="q" 
+            placeholder="Search persons..." 
+            value="{{ query|default:'' }}"
+        />
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="top-links">
+        <a href="{% url 'add_person' %}">➕ Add New Person</a>
+    </div>
+
+    {% if per %}
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Details</th>
+                <th>Actions</th> <!-- Added Actions header -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for person in per %}
+            <tr>
+                <td>{{ person.first_name|default:"N/A" }}</td>
+                <td>{{ person.last_name }}</td>
+                <td>{{ person.email|default:"N/A" }}</td>
+                <td>{{ person.age }}</td>
+                <td>{{ person.details }}</td>
+                <td>
+                    <a href="{% url 'edit_person' person.pk %}">Edit</a>
+                    <a href="{% url 'delete_person' person.pk %}">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No persons found.</p>
+    {% endif %}
+</body>
+</html>
