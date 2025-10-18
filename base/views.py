@@ -59,4 +59,4 @@ def delete_person(request, pk):
     return render(request, 'confirm_delete.html', {'person': person})
 
 def about(request):
-    return HttpResponse("About page")
+    return render(request, 'about.html')
